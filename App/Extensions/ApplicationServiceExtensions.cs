@@ -1,5 +1,6 @@
 ﻿using App.Data;
 using App.Interfaces;
+using App.Services;
 
 namespace App.Extensions;
 
@@ -13,7 +14,7 @@ public static class ApplicationServiceExtensions
         services.AddCors();
 
         services.AddScoped<IUserRepository, UserRepository>();
-        //services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<ITokenService, TokenService>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         //services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
         //services.AddScoped<IPhotoService, PhotoService>();
