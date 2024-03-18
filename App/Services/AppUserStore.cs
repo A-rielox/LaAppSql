@@ -74,6 +74,7 @@ public class AppUserStore : IUserStore<AppUser>,
     ///
     public async Task<AppUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
     {// lo va a encontrar = a pesar de no estar normalizado en la DB
+        // crear otro xq este devuelve fotos
         return await _userRepository.GetUserByUserNameAsync(normalizedUserName);
     }
 

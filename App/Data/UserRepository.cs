@@ -23,7 +23,7 @@ public class UserRepository : IUserRepository
 
     ////////////////////////////////////////////////
     ////////////////////////////////////////////////
-    /// LA OCUPO EN AppUserStore
+    ///                                                 LA OCUPO EN AppUserStore
     public async Task<int> CreateUser(AppUser usuario)  // CrearUsuario / Register
     {   
         // creo user con sp y lo pongo con role 'Member'
@@ -31,8 +31,6 @@ public class UserRepository : IUserRepository
 
         parameters.Add("@userName", usuario.UserName);
         parameters.Add("@knownAs", usuario.KnownAs);
-        //parameters.Add("@gender", usuario.Gender);
-        //parameters.Add("@dateOfBirth", usuario.DateOfBirth);
         parameters.Add("@city", usuario.City);
         parameters.Add("@country", usuario.Country);
         parameters.Add("@passwordHash", usuario.PasswordHash);
@@ -57,7 +55,6 @@ public class UserRepository : IUserRepository
 
         parameters.Add("@userId", user.Id);
         parameters.Add("@introduction", user.Introduction);
-        //parameters.Add("@lookingFor", user.LookingFor);
         parameters.Add("@interests", user.Interests);
         parameters.Add("@city", user.City);
         parameters.Add("@country", user.Country);
@@ -85,7 +82,7 @@ public class UserRepository : IUserRepository
 
     ////////////////////////////////////////////////
     ////////////////////////////////////////////////
-    ///     LA OCUPO EN AppUserStore - BuscarUsuarioPorEmail
+    ///                                 LA OCUPO EN AppUserStore - BuscarUsuarioPorEmail
     public async Task<AppUser> GetUserByUserNameStoreAsync(string userName)
     {
         var user = await db.QuerySingleOrDefaultAsync<AppUser>("sp_getUserByUserNameStore",
@@ -97,7 +94,8 @@ public class UserRepository : IUserRepository
 
     ////////////////////////////////////////////////
     ////////////////////////////////////////////////
-    ///                                             UsersController
+    ///                                             UsersController y AppUserStore <summary>
+    /// crear otro para AppUserStore q no devuelva fotos
     public async Task<AppUser> GetUserByUserNameAsync(string userName)
     {
         AppUser user;
