@@ -1,5 +1,6 @@
 ﻿using App.DTOs;
 using App.Entities;
+using App.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
