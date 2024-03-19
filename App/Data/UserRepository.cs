@@ -46,7 +46,7 @@ public class UserRepository : IUserRepository
 
     ////////////////////////////////////////////////
     ////////////////////////////////////////////////
-    ///
+    ///                                             UsersController
     public async Task<bool> UpdateUserAsync(AppUser user)
     {
         // si es exitosa me retorna 1 ( la cantidad de cols editadas )
@@ -63,12 +63,13 @@ public class UserRepository : IUserRepository
                                             parameters,
                                             commandType: CommandType.StoredProcedure);
 
+        // devuelve @@ROWCOUNT, debe ser 1
         return res == 1 ? true : false;
     }
 
     ////////////////////////////////////////////////
     ////////////////////////////////////////////////
-    ///
+    ///                                             UsersController
     public async Task<AppUser> GetUserByIdAsync(int id)
     {
         var user = await db.QuerySingleAsync<AppUser>("sp_getUserById",
@@ -127,7 +128,11 @@ public class UserRepository : IUserRepository
                                     commandType: CommandType.StoredProcedure))
         {
             user = lists.Read<AppUser>().SingleOrDefault();
-            user.Pictures = lists.Read<Picture>().ToList();
+
+            if(user is not null)
+            {
+                user.Pictures = lists.Read<Picture>().ToList();
+            }
         }
 
         return user;

@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace App.Controllers;
 
-//[Authorize]
+[Authorize]
 public class UsersController : BaseApiController
 {
     private readonly IUserRepository _userRepository;
@@ -27,6 +27,7 @@ public class UsersController : BaseApiController
     //////////////////////////////////////////
     /////////////////////////////////////////////
     [HttpGet]
+    //[Authorize(Roles = "Admin")]
     public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
     {// el está usando getMembers
         var users = await _userRepository.GetUsersAsync();
@@ -84,12 +85,14 @@ public class UsersController : BaseApiController
     // PUT api/Users
     [HttpPut]
     public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
-    {
+    {// no estoy cambiando en knownAs
         //var username = User.FindFirst(ClaimTypes.Name)?.Value;
-        var username = User.GetUsername();
+        //var username = User.GetUsername();
+        var userId = User.GetUserId();
 
-        var user = await _userRepository.GetUserByUserNameAsync(username); // me trae todas las fotos
-                                                                           // cambiar a GetUserByIdAsync
+        //var user = await _userRepository.GetUserByUserNameAsync(username); // me trae todas las fotos
+        var user = await _userRepository.GetUserByIdAsync(userId); // me trae todas las fotos
+        
         if (user == null) return NotFound();
 
         // lo q esta em memberUpdateDto lo mete a user

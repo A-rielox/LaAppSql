@@ -50,7 +50,7 @@ public class AccountController : BaseApiController
 
         return Ok(userDto);
     }
-
+    // ocupa AppUserStore->FindByNameAsync->GetUserWithMainFotoAsync de UserRepository
 
     ////////////////////////////////////////////////
     ///////////////////////////////////////////////////

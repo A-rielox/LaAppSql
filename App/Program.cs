@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddAplicationServices(builder.Configuration);
-//builder.Services.AddIdentityServices(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
 
 // p'q funcione Identity
 builder.Services.AddScoped<IUserStore<AppUser>, AppUserStore>();
