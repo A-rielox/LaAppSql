@@ -1,5 +1,7 @@
+using App.Entities;
 using App.Extensions;
-//using Microsoft.AspNetCore.Identity;
+using App.Services;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,14 +19,14 @@ builder.Services.AddAplicationServices(builder.Configuration);
 //builder.Services.AddIdentityServices(builder.Configuration);
 
 // p'q funcione Identity
-//builder.Services.AddScoped<IUserStore<AppUser>, AppUserStore>();
-//builder.Services.AddIdentityCore<AppUser>(opciones =>
-//{
-//    opciones.Password.RequireDigit = false;
-//    opciones.Password.RequireLowercase = false;
-//    opciones.Password.RequireUppercase = false;
-//    opciones.Password.RequireNonAlphanumeric = false;
-//});
+builder.Services.AddScoped<IUserStore<AppUser>, AppUserStore>();
+builder.Services.AddIdentityCore<AppUser>(opciones =>
+{
+    opciones.Password.RequireDigit = false;
+    opciones.Password.RequireLowercase = false;
+    opciones.Password.RequireUppercase = false;
+    opciones.Password.RequireNonAlphanumeric = false;
+});
 
 
 
@@ -50,7 +52,9 @@ app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("ht
 
 
 
-//app.UseAuthorization();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

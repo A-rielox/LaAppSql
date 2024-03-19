@@ -23,10 +23,10 @@ public class UserRepository : IUserRepository
 
     ////////////////////////////////////////////////
     ////////////////////////////////////////////////
-    ///                                                 LA OCUPO EN AppUserStore
-    public async Task<int> CreateUser(AppUser usuario)  // CrearUsuario / Register
+    ///                                                 AppUserStore
+    public async Task<int> CreateUser(AppUser usuario)  // Register
     {   
-        // creo user con sp y lo pongo con role 'Member'
+        // creo user y lo pongo con role 'Member'
         var parameters = new DynamicParameters();
 
         parameters.Add("@userName", usuario.UserName);
@@ -34,7 +34,6 @@ public class UserRepository : IUserRepository
         parameters.Add("@city", usuario.City);
         parameters.Add("@country", usuario.Country);
         parameters.Add("@passwordHash", usuario.PasswordHash);
-
         parameters.Add("@email", usuario.UserName);
         parameters.Add("@normalizedEmail", usuario.UserName.ToUpper());
 
@@ -82,7 +81,7 @@ public class UserRepository : IUserRepository
 
     ////////////////////////////////////////////////
     ////////////////////////////////////////////////
-    ///                                 LA OCUPO EN AppUserStore - BuscarUsuarioPorEmail
+    ///                                                AppUserStore
     public async Task<AppUser> GetUserByUserNameStoreAsync(string userName)
     {
         var user = await db.QuerySingleOrDefaultAsync<AppUser>("sp_getUserByUserNameStore",
@@ -94,8 +93,7 @@ public class UserRepository : IUserRepository
 
     ////////////////////////////////////////////////
     ////////////////////////////////////////////////
-    ///                                             UsersController y AppUserStore <summary>
-    /// crear otro para AppUserStore q no devuelva fotos
+    ///                                             UsersController
     public async Task<AppUser> GetUserByUserNameAsync(string userName)
     {
         AppUser user;
@@ -112,6 +110,24 @@ public class UserRepository : IUserRepository
             {
                 user.Pictures = photos;
             }
+        }
+
+        return user;
+    }
+
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ///                                                 AppUserStore
+    public async Task<AppUser> GetUserWithMainFotoAsync(string userName)
+    {
+        AppUser user;
+
+        using (var lists = await db.QueryMultipleAsync("sp_getUserrMainFoto",
+                                    new { userName = userName },
+                                    commandType: CommandType.StoredProcedure))
+        {
+            user = lists.Read<AppUser>().SingleOrDefault();
+            user.Pictures = lists.Read<Picture>().ToList();
         }
 
         return user;

@@ -9,6 +9,7 @@ public interface IUserRepository
     //Task<AppUserPagedList> GetPagedUsersAsync(UserParams userParams); // reemplaza a la de arriba
     Task<AppUser> GetUserByIdAsync(int id);
     Task<AppUser> GetUserByUserNameAsync(string username);  //   UsersController
+    Task<AppUser> GetUserWithMainFotoAsync(string userName); // AppUserStore
     Task<AppUser> GetUserByUserNameStoreAsync(string username);  //  LA OCUPO EN AppUserStore - BuscarUsuarioPorEmail
 
 

@@ -59,7 +59,8 @@ public class AccountController : BaseApiController
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
         //var user = await _userRepository.GetUserByUsernameAsync(loginDto.UserName);
-        var user = await _userManager.FindByNameAsync(loginDto.UserName); // .FindByNameAsync est[a en AppUserStore
+        var user = await _userManager.FindByNameAsync(loginDto.UserName);
+        // .FindByNameAsync est[a en AppUserStore y usa GetUserWithMainFotoAsync de UserRepository
 
         if (user == null) return Unauthorized("Invalid Username.");
 
@@ -71,7 +72,7 @@ public class AccountController : BaseApiController
         {
             UserName = user.UserName,
             KnownAs = user.KnownAs,
-            PhotoUrl = user.Pictures.FirstOrDefault(p => p.IsMain == 1)?.Url,
+            PhotoUrl = user.Pictures.FirstOrDefault()?.Url, // manda null cuando no hay photo
             Token = await _tokenService.CreateToken(user)
         };
 
@@ -86,7 +87,8 @@ public class AccountController : BaseApiController
     //
     private async Task<bool> UserExists(string username)
     {
-        var userInDb = await _userManager.FindByNameAsync(username.ToLower());
+        var userInDb = await _userManager.FindByEmailAsync(username.ToLower());
+        // FindByEmailAsync trae usuario x nombre sin foto ( usa GetUserByUserNameStoreAsync )
 
         return userInDb is not null;
     }

@@ -3,7 +3,7 @@ using App.Entities;
 using App.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace Services.Services;
+namespace App.Services;
 
 public class AppUserStore : IUserStore<AppUser>,
                             IUserEmailStore<AppUser>,
@@ -73,9 +73,9 @@ public class AppUserStore : IUserStore<AppUser>,
     ////////////////////////////////////////////////
     ///
     public async Task<AppUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
-    {// lo va a encontrar = a pesar de no estar normalizado en la DB
-        // crear otro xq este devuelve fotos
-        return await _userRepository.GetUserByUserNameAsync(normalizedUserName);
+    {
+        //return await _userRepository.GetUserByUserNameAsync(normalizedUserName);
+        return await _userRepository.GetUserWithMainFotoAsync(normalizedUserName);
     }
 
 
